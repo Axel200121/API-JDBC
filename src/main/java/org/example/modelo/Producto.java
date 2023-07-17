@@ -5,13 +5,13 @@ import java.util.Date;
 public class Producto {
     private Long id;
     private String nombre;
-    private String precio;
+    private double precio;
     private Date fechaRegistro;
 
     public Producto() {
 
     }
-    public Producto(Long id, String nombre, String precio, Date fechaRegistro) {
+    public Producto(Long id, String nombre, double precio, Date fechaRegistro) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
@@ -34,11 +34,11 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public String getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 
@@ -48,5 +48,10 @@ public class Producto {
 
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    @Override
+    public String toString() {
+        return id + " | " + nombre + " | " + precio + " | " + fechaRegistro;
     }
 }
