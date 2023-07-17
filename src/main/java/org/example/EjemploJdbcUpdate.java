@@ -5,10 +5,11 @@ import org.example.repositorio.ProductoRepositorioImpl;
 import org.example.repositorio.Repositorio;
 import org.example.utils.ConexionBD;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Date;
 
-public class EjemploJdbc {
+public class EjemploJdbcUpdate {
 
     public static void main(String[] args) {
 
@@ -21,13 +22,13 @@ public class EjemploJdbc {
             System.out.println("============== Obtener por ID ==============");
             System.out.println(repositorio.porId(2L));
 
-            System.out.println("============== Insertar nuevo producto ==============");
+            System.out.println("============== Editar nuevo producto ==============");
             Producto producto = new Producto();
-            producto.setNombre("Teclado mecanico");
-            producto.setPrecio(500);
-            producto.setFechaRegistro(new Date()); // mandamos llamar el new date de java Util
+            producto.setId(3L);
+            producto.setNombre("Teclado mecanico YEYIAN test");
+            producto.setPrecio(1500);
             repositorio.guardar(producto);
-            System.out.println("Producto agregago exitosamente");
+            System.out.println("Producto editado exitosamente");
             repositorio.listar().forEach(System.out::println);
 
         } catch (SQLException e) {

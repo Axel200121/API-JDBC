@@ -58,7 +58,7 @@ public class ProductoRepositorioImpl implements Repositorio<Producto> {
         if (producto.getId() != null && producto.getId() > 0) { // hace una condicón si es una actualizacion o un insert
             sql = "UPDATE productos SET nombre=?, precio=? WHERE id=?";
         } else {
-            sql = "INSERT INTO prodcutos(nombre, precio, fecha_registro) VALUES (?, ?, ?)";
+            sql = "INSERT INTO productos(nombre, precio, fecha_registro) VALUES (?, ?, ?)";
         }
         try(PreparedStatement stmt = getConnection().prepareStatement(sql)){
             stmt.setString(1, producto.getNombre());
