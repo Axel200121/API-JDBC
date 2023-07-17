@@ -41,11 +41,11 @@ public class ProductoRepositorioImpl implements Repositorio<Producto> {
                 prepareStatement("SELECT * FROM productos WHERE id = ?")){
 
             stmt.setLong(1,id);
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                producto = crearProducto(rs);// mandamos a llamar la funcion crearProducto
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    producto = crearProducto(rs);// mandamos a llamar la funcion crearProducto
+                }
             }
-            rs.close();//cerramos el ResultSet
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -54,11 +54,37 @@ public class ProductoRepositorioImpl implements Repositorio<Producto> {
 
     @Override
     public void guardar(Producto producto) {
+        String sql; //hacemos la consulta
+        if (producto.getId() != null && producto.getId() > 0) { // hace una condicón si es una actualizacion o un insert
+            sql = "UPDATE productos SET nombre=?, precio=? WHERE id=?";
+        } else {
+            sql = "INSERT INTO prodcutos(nombre, precio, fecha_registro) VALUES (?, ?, ?)";
+        }
+        try(PreparedStatement stmt = getConnection().prepareStatement(sql)){
+            stmt.setString(1, producto.getNombre());
+            stmt.setDouble(2, producto.getPrecio());
 
+            if (producto.getId() != null && producto.getId() > 0) {
+                stmt.setLong(3, producto.getId());
+            } else {
+                stmt.setDate(3, new Date(producto.getFechaRegistro().getTime()));//convertimos java date util a javaDate
+            }
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void eliminar(Long id) {
+        try(PreparedStatement stmt = getConnection().prepareStatement("DELETE FROM productos WHERE id=?")) {
+            stmt.setLong(1,1);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
